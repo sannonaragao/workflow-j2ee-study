@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Configuration>
+
+	<Properties>
+		<Property name="filename">c:\J2EE\workflow.log</Property>
+	</Properties>
+
+	<Appenders>
+		<Console name="Console" target="SYSTEM_OUT">
+			<PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n" />
+		</Console>
+
+		<File name="MyFile" fileName="c:\J2EE\workflow.log"
+			immediateFlush="true" append="false">
+			<PatternLayout
+				pattern="%d{yyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n" />
+		</File>
+
+		<File name="MyHibernateSql" fileName="c:\J2EE\hibernate_sql.log"
+			immediateFlush="true" append="false">
+			<PatternLayout
+				pattern="%d{yyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n" />
+		</File>
+
+		<File name="Erros" fileName="c:\J2EE\Erros.log" immediateFlush="true"
+			append="true">
+			<PatternLayout
+				pattern="%d{yyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n" />
+		</File>
+		<File name="Debug" fileName="c:\J2EE\Debug.log" immediateFlush="true"
+			append="true">
+			<PatternLayout
+				pattern="%d{yyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n" />
+		</File>
+
+		<File name="MyHibernate" fileName="c:\J2EE\hibernate.log"
+			immediateFlush="true" append="false">
+			<PatternLayout
+				pattern="%d{yyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n" />
+		</File>
+
+	</Appenders>
+
+	<Loggers>
+		<Root level="all">
+			<AppenderRef ref="Console" level="warn" />
+			<AppenderRef ref="MyFile" />
+			<AppenderRef ref="Erros" level="error" />
+			<AppenderRef ref="Debug" level="Debug" />
+
+		</Root>
+
+		<Logger name="org.hibernate" level="all" additivity="false">
+			<AppenderRef ref="MyHibernate" level="debug" />
+		</Logger>
+
+
+		<Logger name="org.hibernate.SQL" level="all" additivity="false">
+			<AppenderRef ref="MyHibernateSql" level="all" />
+		</Logger>
+
+<!-- 
+		 <Logger name="EventLogger" level="info" additivity="false">
+		      <AppenderRef ref="Routing"/>
+		    </Logger>
+		 
+		    <Root level="error">
+		      <AppenderRef ref="STDOUT"/>
+		    </Root>
+		    -->
+	</Loggers>
+ 
+	<!-- logger.trace("trace"); logger.debug("debug"); logger.info("info"); 
+		logger.warn("warn"); logger.error("error"); logger.fatal("fatal"); -->
+</Configuration>

@@ -1,0 +1,293 @@
+/*
+
+ TONS DE CORES 
+
+LABEL DESABILITADO color: rgb(158, 158, 158);
+
+AZUL
+#0288d1 light-blue darken-2
+#546e7a blue-grey darken-1
+#03a9f4 light-blue
+
+#1e94d2  <- azul legal
+
+VERDE
+#26a69a teal lighten-1
+
+CINZA
+#e0e0e0 grey lighten-2
+#eeeeee grey lighten-3
+ 
+VERMELHO
+#f44336 red
+ 
+*/
+
+/*
+div > span > input, label  {
+    color: red;
+}
+
+input[type=text]:focus:not([readonly]) + label[for*="dt_start"]
+{
+	color: red;
+}
+*/
+
+/* FONTES */
+@font-face {
+  Font-family: 'bold';
+  src:	url("../resources/fonts/roboto/Roboto-Bold.eot");
+  src:	url("../resources/fonts/roboto/Roboto-Bold.eot#iefix") format('embedded-opentype'), 
+  		url("../resources/fonts/roboto/Roboto-Bold.woff2") format('woff2'), 
+  		url("../resources/fonts/roboto/Roboto-Bold.woff") format('woff'), 
+  		url("../resources/fonts/roboto/Roboto-Bold.ttf") format('truetype'), 
+  		url("../resources/fonts/roboto/Roboto-Bold.svg#roboto_condensedbold") format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  Font-family: 'light';
+  src: url("../resources/fonts/roboto/Roboto-Light.eot");
+  src: url("../resources/fonts/roboto/Roboto-Light.eot#iefix") format('embedded-opentype'), 
+  url("../resources/fonts/roboto/Roboto-Light.woff2") format('woff2'), 
+  url("../resources/fonts/roboto/Roboto-Light.woff") format('woff'), 
+  url("../resources/fonts/roboto/Roboto-Light.ttf") format('truetype'), 
+  url("../resources/fonts/roboto/Roboto-Light.svg#roboto_condensedlight") format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  Font-family: 'regular';
+  src: url("../resources/fonts/roboto/Roboto-Regular.eot");
+  src: url("../resources/fonts/roboto/Roboto-Regular.eot#iefix") format('embedded-opentype'), 
+  url("../resources/fonts/roboto/Roboto-Regular.woff2") format('woff2'), 
+  url("../resources/fonts/roboto/Roboto-Regular.woff") format('woff'), 
+  url("../resources/fonts/roboto/Roboto-Regular.ttf") format('truetype'), 
+  url("../resources/fonts/roboto/Roboto-Regular.svg#roboto_condensedregular") format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+/*-- FIM FONTES-
+
+
+/* LAYOUT RESPONSIVO - INÍCIO */
+/* TOPBAR */
+.wf-topbar {
+	position: fixed;
+	top: 0;
+	right: 0;
+	left: 0;
+	min-height: 50px;
+	z-index: 9999;
+	background-color: #0288d1;
+}
+
+.wf-topbar > img {
+	margin-top: 10px;
+	margin-left: 5px;
+}
+
+/* SIDEBAR */
+.wf-sidebar {
+	position: fixed;
+	top: 50px;
+	bottom: 0;
+	left: 0;
+	width: 210px;
+	margin-left: -211px;
+	z-index: 9998;
+	transition: margin-left 0.5s;
+	overflow-y: auto;
+	
+	background-color: #f6f6f6;
+	border-right: 1px solid #eaeaea;
+}
+
+.wf-sidebar.is-toggled {
+	margin-left: 0px;
+}
+
+@media (min-width: 960px) {
+	.wf-sidebar {
+		margin-left: 0px;
+	}
+	
+	.wf-sidebar.is-toggled {
+		margin-left: -211px;
+	}
+}
+
+/* CONTENT */
+.wf-content {
+	padding: 8px;
+	margin-top: 50px;
+	transition: margin-left 0.5s;
+	max-width: 750px;
+}
+
+
+#layout-menu-cover .ui-menu .ui-menu-list .ui-widget-header .ui-icon-triangle-1-s {
+ 	width:16px !important;
+	height:16px !important;
+	background-position:-64px -16px !important;
+	background-image: url("../resources/imagens/ui-icons_777777_256x240.png") !important;
+	background-size: initial !important;
+}
+#layout-menu-cover .ui-menu .ui-menu-list .ui-widget-header .ui-icon-triangle-1-e {
+ 	width:16px !important;
+	height:16px !important;
+	background-position:-32px -16px !important;
+	background-image: url("../resources/imagens/ui-icons_777777_256x240.png") !important;
+	background-size: initial !important;
+}
+ 
+
+
+
+@media (min-width: 960px) {
+	.wf-content {
+		margin-left: 210px;
+	}
+	
+	.wf-content.is-toggled {
+		margin-left: 0;
+	}
+}
+
+
+@media (max-width: 640px) {
+	.ui-panelgrid.panelgrid-noborder .ui-grid-responsive .ui-grid-row {
+		border: none;
+	}
+}
+
+@media (max-width: 640px) {
+	.ui-tabs.ui-tabs-top > .ui-tabs-nav li {
+		width: 100%;
+	}
+}
+
+/* TOGGLE */
+.wf-toggle {
+	float: right;
+	line-height: 50px;
+	margin-right: 15px;
+	
+	color: #fff;
+}
+
+/* LAYOUT RESPONSIVO - FIM */
+
+
+/*-----------------------------------------*/
+/*	Página de \template\todas 			*/
+/*-----------------------------------------*/
+.ui-layout-unit {
+    padding: 10px;
+}
+
+/* topbar */
+#layout-topbar {
+  width: 99%;
+  height: 50px;
+  position: fixed;
+  z-index: 1000;
+  background-color: #03a9f4;
+  -webkit-box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.3);
+  -moz-box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.3);
+  box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.3);
+} 
+ 
+.ajax-status{
+	position: fixed;
+	display: inline;
+	top: 80px;
+	right: 30px;
+	width: 48px;
+	height: 48px;	
+}
+
+
+/**/
+/*-----------------------------------------*/
+/*	COMPOMENTES							*/
+/*-----------------------------------------*/
+/* controles de formulario ( form-control do bootstrap ) */
+
+/*------------------------------------------*/
+/*	FAB										*/
+/*------------------------------------------*/
+.fab-innerbutton{
+	font-size: 22px !important;
+    height: 32px !important;
+    width: 20px !important;
+    top: 24% !important;
+    line-height: 37px !important;
+    margin-left: -10px !important;
+    margin-top: -10px !important;
+    z-index: 1 !important;
+}
+
+.fab-innerbutton-update:before {
+  	content: "\f0c7"; /* fa-floppy-o do FontAwesome */	
+}
+
+/* 
+ * Containers
+ */
+ 
+.Container100{ width:100%; float:left;}
+.Container96{ width:96%; float:left;}
+.Container90{ width:90%; float:left;}
+.Container85{ width:85%; float:left;}
+.Container80{ width:80%; float:left;}
+.Container75{ width:75%; float:left;}
+.Container70{ width:70%; float:left;}
+.Container66{ width:66.66%; float:left;}
+.Container60{ width:60%; float:left;}
+.Container50{ width:50%; float:left;}
+.Container40{ width:40%; float:left;}
+.Container33{ width:33.33%; float:left;}
+.Container30{ width:30%; float:left;}
+.Container25{ width:25%; float:left;}
+.Container20{ width:20%; float:left;}
+.Container10{ width:10%; float:left;}
+.Container5{ width:5%; float:left;}
+
+.ContainerIndent{display:block; margin:0px auto; padding:10px;}
+
+/* Height */
+
+.Hei100{ height:100%;}
+.Hei90{ height:90%;}
+.Hei80{ height:80%;}
+.Hei70{ height:70%;}
+.Hei60{ height:60%;}
+.Hei40{ height:40%;}
+.Hei50{ height:50%;}
+.Hei30{ height:30%;}
+.Hei20{ height:20%;}
+.Hei10{ height:10%;}
+
+
+
+
+/* #03a9f4 light-blue					*/
+/* #0288d1 light-blue darken-2	*/ 
+
+
+/*
+ * variáveis ainda ão são compatíveis 
+  uso => var(--cor01) 
+:root {
+--cor_bg_01: #F0F3FF;
+--cor_bg_02: #DDDDDD;
+}
+*/
+/*	 # = id="xpto"			. = class = "xpto"		
+ */
+ 
+ 
+ 

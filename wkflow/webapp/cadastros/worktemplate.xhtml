@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:util="http://xmlns.jcp.org/jsf/composite/components/util"
+    xmlns:o="http://omnifaces.org/ui"	>
+
+<ui:composition >
+<ui:decorate template="/templates/main.xhtml"  >
+<ui:define name="titulo" > - #{msg['worktemplate_menu']}</ui:define>
+
+<ui:define name="content">
+ 	<f:metadata>
+ 		<f:event listener="#{wktemplateMB.inicializar}" type="preRenderView" />
+ 	</f:metadata>
+<div>
+
+<h:form id="edicao" class="col s12" >
+	<util:fab  id="fab" bean="#{wktemplateMB}" process=":edicao" update=":edicao:fieldset :edicao:fieldset2 :listagem" />
+
+	<p:fieldset id="fieldset" legend="Etapas do Workflow Modelo" toggleable="true" collapsed="false" >
+		<p:outputPanel id="scroll" style="width: 100%;height: 100%;overflow: auto;display: block">
+		
+			<p:tree id="tree" value="#{wktemplateMB.root}" var="node" dynamic="true" orientation="horizontal"  
+	  			 selectionMode="single" widgetVar="treeWidget" selection="#{wktemplateMB.singleSelectedTreeNode}"  >
+		        <p:treeNode >
+		            <h:outputText value="#{node}" converter="cnvWorkTemplate"/>
+		        </p:treeNode>
+		  		
+			    <p:ajax event="select" listener="#{wktemplateMB.onNodeSelect}" update=":edicao" oncomplete="oncomplete();PF('varAddEtapa').enable();"  
+			    	 async="false"  ></p:ajax>
+			    <p:ajax event="unselect" listener="#{wktemplateMB.onNodeUnSelect}" update=":edicao" oncomplete="PF('varAddEtapa').disable();"  ></p:ajax>
+			    
+			    
+		    </p:tree>
+	    
+			<div class="card-action row">
+		    	<p:commandButton  actionListener="#{wktemplateMB.doubleClickEvent()}" styleClass="hide waves-effect waves-light btn btn-xs col s3 offset-s1" 
+		    		 widgetVar="varAddEtapa" title="Adicionar Etapa" disabled="true" />
+		    	
+		    	<div class="col s7 offset-s1 " >
+		    	<p:outputLabel id="msgLabel" styleClass="hide" > Dê duplo clique na etapa para acrescentar um nível abaixo</p:outputLabel>
+		    	</div>
+		    	
+			</div>
+	  	</p:outputPanel>
+	  	<p:ajax event="toggle" listener="#{wktemplateMB.onToggle}" update="fieldset"/>
+   	</p:fieldset>
+   	
+   	<div class="EmptyBox10"></div>
+   	<p:fieldset id="fieldset2" toggleable="false" collapsed="false"  >
+    <div class="row " id="campos" >
+		<div class="input-field col s12 m9 l9">
+			<p:inputText id="description" binding="#{components.worktemplate_description}" type="text" 
+			value="#{wktemplateMB.workTemplateDTO.description}" 
+			readonly="#{wktemplateMB.readonly}" 
+			disabled="#{wktemplateMB.readonly}">
+				<p:ajax event="keyup" update="tree" />
+			</p:inputText>
+			
+			  
+			<p:outputLabel value="#{msg['worktemplate_description']}" for="description" indicateRequired="false" />
+		</div>
+		
+		<div class="col s12 m3 l3" >
+			
+			<p:outputLabel value="teste" for="usergroup" indicateRequired="false" styleClass="selectonemenu_label" />
+			
+			<p:selectOneMenu id="usergroup" binding="#{components.worktemplate_usergroup}"
+				converter="cnvUserGroup" value="#{wktemplateMB.workTemplateDTO.usergroup}" disabled="#{wktemplateMB.readonly}"
+				onfocus="activeLabel(this);activeLabelColor(this);" onblur="desactiveLabelColor(this);" >
+			
+				<f:selectItem itemLabel="Selecione o Grupo"/>
+	            <f:selectItems value="#{wktemplateMB.userGroups}" var="group" itemLabel="#{group.name}" itemValue="#{group}" />
+	            
+	            <p:ajax event="change" update="@this" />
+	            
+	        </p:selectOneMenu>
+	        
+		</div>
+		
+	</div>
+	
+	</p:fieldset>
+
+	<div class="row" id="erros">
+		<p:messages id="messages" closable="true" showDetail="true" showSummary="false" autoUpdate="false" for="panelMessage" />
+	</div>
+	<p:growl id="growl" showDetail="true" sticky="false" for="growlMessage"/>  
+
+</h:form>
+
+<h:form id="listagem">
+	<p:dataTable value="#{wktemplateMB.listTemplates}" var="work" id="lista" rows="5" paginator="true" 
+		paginatorTemplate="#{ApplicationMB.paginatortemplate}"  rowsPerPageTemplate="#{ApplicationMB.rowsperpagetemplate}"
+	    selectionMode="single" resizableColumns="true" style="margin-bottom:20px" selection="#{wktemplateMB.workTemplateDTO}" rowKey="#{work.id}" 
+	    emptyMessage="#{msg['worktemplate_no_rows']}" styleClass="z-depth-2" widgetVar="lista"  >
+		
+		<f:facet name="header">
+       		#{msg['worktemplate_list']}
+        </f:facet>
+		<p:column id="work" width="80%">
+			<f:facet name="header">#{msg['worktemplate_description']}</f:facet>
+			#{work.description}
+		</p:column>
+		
+		<p:column id="grupo" width="80%">
+			<f:facet name="grupo">Grupo de Usuários</f:facet>
+			#{work.usergroup.name}
+		</p:column>
+
+
+	    <p:ajax event="rowSelect"  
+		    update=":edicao" global="false" oncomplete="oncomplete();PF('varAddEtapa').disable();$('#edicao\\:msgLabel').removeClass('hide');" resetValues="true" />
+
+	</p:dataTable>
+
+</h:form>
+
+<p:confirmDialog message="Salvar dados alterados na Etapa?" header="Modelagem de Workflow" severity="alert" 
+	widgetVar="saveDialog" appendTo="@(body)" global="true" closable="true" responsive="true" >
+	<h:form>
+		<p:commandButton value="Sim" actionListener="#{wktemplateMB.update()}" update=":edicao, :listagem" oncomplete="PF('saveDialog').hide();oncomplete();" />
+		<p:commandButton value="Não" actionListener="#{wktemplateMB.discardUpdate()}" update=":edicao, :listagem" oncomplete="PF('saveDialog').hide();oncomplete();" />
+	</h:form>
+</p:confirmDialog>
+
+</div>
+
+ 
+<script type="text/javascript">
+var selectedElement;
+/*
+$(document).ready(function() {
+    $('select').material_select();
+  });*/
+  
+//<![CDATA[
+<!--
+	function scrolltonode() {
+
+		var selectedElement = PrimeFaces.widgets['treeWidget'].jq.find('span .ui-state-highlight');
+		
+		if (selectedElement != null && selectedElement != undefined && selectedElement.position != undefined) {
+   			var scrollPanel = PrimeFaces.widgets['treeWidget'].jq.parent;
+		     scrollPanel.scrollTop(selectedElement.position().top - scrollPanel.height() / 2);
+		}
+
+	}
+
+function cancelNodeChage() {
+	var selectedElement = PrimeFaces.widgets['treeWidget'].jq.find('span .ui-state-highlight');
+}
+function clicknode(){
+	selectedElement = PrimeFaces.widgets['treeWidget'].jq.find('span .ui-state-highlight');
+	console.log(selectedElement);
+}
+//]]>
+-->
+ </script>
+
+
+</ui:define>
+</ui:decorate>
+
+
+</ui:composition>
+</html>

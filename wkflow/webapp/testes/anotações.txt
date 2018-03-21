@@ -1,0 +1,182 @@
+
+
+
+
+
+
+
+
+
+			<div class="fixed-action-btn horizontal click-to-toggle" style="top: 75px; left: 710px; width: 80px; height: 80px;">
+				<a class="btn-floating btn-medio light-blue">
+					<i class="fa fa-bars" aria-hidden="true" style="padding-top: 4px;" ></i>
+				</a>
+				<ul style="right: 75px; top:27px;">
+					<li><a id="btn_delete" onclick="PF('cd').show()" class="btn-floating red"><i class="fa fa-trash-o" aria-hidden="true"></i></a></li>
+
+					<li><p:commandButton id="cb_update"
+							styleClass="btn-floating green" action="#{projectMB.update}"
+							style='border-radius: 50%;'
+							icon="fa fab-innerbutton-update fab-innerbutton"
+							partialSubmit="true" oncomplete="WfUpdateFields();"
+							ajax="true" execute="@form" render=":edicao :listagem "
+							process="edicao @this"
+							update="listagem:listaProj"	/>
+					</li>
+
+					<li><a id="btn_edit"   	onclick="btn_edit();"	class="btn-floating light-blue lighten-2"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a></li>
+					<li><a id="btn_insert" 	onclick="btn_insert();"	class="btn-floating light-blue lighten-2"><i class="fa fa-plus-circle" aria-hidden="true"></i></a></li>
+
+
+				</ul>
+			</div>
+mensagem para violação nome de projeto duplicado
+cor de fundo do "growl" diferente de transparente
+
+
+CICLO DE VIDA DO JSF:  
+Restaurar Visão -> Aplicar valores da requisição -> Atualizar os valores do modelo -> Invocar a aplicação -> renderizar a resposta.
+
+
+AJAX no PRIMEFACES  - parâmetros: update, listener, event, 
+
+Parâmetro UPDATE: relaciona items que serão atualizados no formato form:id.  
+ex:	@form=todo o formulário.  
+	:frm2:campoid = caminho completo.
+	campoid1, campoid2, campoid3 = lista de objetos a serem atualizados, separados ou não por vírgula
+
+Parâmetro PROCESS: Lista quais componentes serão processados.  (processa validação, etc.
+Padrão process='@all'.  process='@this', processa somente o objeto
+
+
+
+CDI
+Escopo
+@Dependent - Escopo default CDI.  Depende do escopo de quem o injetou.
+  Se ela não estiver dentro de nenhum outro escopo maior, instancia e acaba na mesma hora.
+  2 chamadas de função na mesma página cria e destroy 2x o bean.
+
+@SessionScoped - dura a seção toda.  Necessita que seja serializável ( implements Serializable ).
+beans com escopo @dependent que forem chamados dessa seção precisarão serem serializable também.
+
+
+
+
+@Inject - "cria" objeto.  Injeta a dependência.  Pontos de injeção: Atributos, métodos e construtores.
+@PostConstruct - Após injeção de componentes.
+
+Qualificadores:
+public @interface testes{....
+
+@Inject @testes
+
+
+-------------
+JPA
+persistence.xml -> <persistence-unit name="workflow" transaction-type="RESOURCE_LOCAL">
+emf = Persistence.createEntityManagerFactory("workflow");
+
+
+-------------
+
+
+PRIMEFACES
+
+				<p:toolbar >
+					<p:toolbarGroup align="right">
+						<p:commandButton value="Documents" icon="ui-icon-document"></p:commandButton>
+					</p:toolbarGroup>
+				</p:toolbar>
+
+		<style type="text/css">
+        	.ui-layout, .ui-layout-doc, .ui-layout-unit, .ui-layout-wrap, .ui-layout-bd, .ui-layout-hd
+        	{
+            	 border: none;
+   	    	}
+	    </style>
+				
+		<form-login 
+			login-page=			"/publico/login.jsf"
+			default-target-url="/templates/main.jsf" 
+			authentication-failure-url=	"/publico/login.jsf?login_error=1"
+			username-parameter=			"j_username"  
+			password-parameter=			"j_password"
+			login-processing-url="/j_spring_security_check" 
+			authentication-failure-handler-ref="customFailureHandler"
+  			/>
+  			
+
+  
+		<script type="text/javascript">
+				(function () {
+				  	$.material.init();
+				  	$(".shor").noUiSlider({ start: 40, connect: "lower", range: { min: 0, max: 100 } });
+					$(".svert").noUiSlider({ orientation: "vertical", start: 40, connect: "lower", range: { min: 0, max: 100  }  });
+				});
+		</script>
+			
+				<h:outputScript library="js" name="jquery.min.js" />
+				
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+       
+       
+       <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+       
+       
+       <?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+       
+       
+       
+		<!-- Bootstrap Core JavaScript -->
+		<h:outputScript library="js" name="bootstrap.min.js" />
+		<h:outputScript library="js" name="material.min.js" />
+		<h:outputScript library="js" name="ripples.min.js" />
+		<h:outputStylesheet library="css" name="bootstrap-material-design.min.css" />
+		<h:outputStylesheet library="css" name="ripples.css" />
+		<h:outputStylesheet library="css" name="estilo.css" />
+		
+		
+		
+		
+		
+		
+			<script type="text/javascript">
+			window.onload = function() {
+				
+			$('.datepicker').pickadate({
+			    selectMonths: true, // Creates a dropdown to control month
+			    selectYears: 15 // Creates a dropdown of 15 years to control year
+			  });
+			
+			
+			};
+		
+			jQuery.extend( jQuery.fn.pickadate.defaults, {
+			    monthsFull: [ 'janeiro', 'fevereiro', 'março', 'abril', 'maio', 'junho', 'julho', 'agosto', 'setembro', 'outubro', 'novembro', 'dezembro' ],
+			    monthsShort: [ 'jan', 'fev', 'mar', 'abr', 'mai', 'jun', 'jul', 'ago', 'set', 'out', 'nov', 'dez' ],
+			    weekdaysFull: [ 'domingo', 'segunda-feira', 'terça-feira', 'quarta-feira', 'quinta-feira', 'sexta-feira', 'sábado' ],
+			    weekdaysShort: [ 'dom', 'seg', 'ter', 'qua', 'qui', 'sex', 'sab' ],
+			    today: 'hoje',
+			    clear: 'limpar',
+			    close: 'fechar',
+			    format: 'dddd, d !de mmmm !de yyyy',
+			    formatSubmit: 'yyyy/mm/dd'
+			});
+
+			jQuery.extend( jQuery.fn.pickatime.defaults, {
+			    clear: 'limpar'
+			});
+
+		</script>
+		
+		
+		
+	<!--
+	<h:outputScript library="js" name="jquery.js" />
+	<script>
+			var $j = jQuery.noConflict();
+	</script>
+	-->

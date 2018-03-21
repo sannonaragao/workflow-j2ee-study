@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<style>
+
+/* DECORATIVO */
+.color_gradient {height: 4px;border-top: 0;background: #000000;border-radius: 0px;background-image: linear-gradient(to right, #c4e17f, #c4e17f 12.5%, #f7fdca 12.5%, #f7fdca 25%, #fecf71 25%, #fecf71 37.5%, #f0776c 37.5%, #f0776c 50%, #db9dbe 50%, #db9dbe 62.5%, #c49cde 62.5%, #c49cde 75%, #669ae1 75%, #669ae1 87.5%, #62c2e4 87.5%, #62c2e4);} 
+.gradient_line{height: 4px;border-top: 0;background: rgba(0, 0, 10,.1);background-image: linear-gradient(to right, rgba(0, 0, 100, .9) ,#FFFFFF );}
+
+
+</style>
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>#{contextoBean.system_name} - Registre-se</title>
+	
+		<h:outputScript library="primefaces" name="jquery/jquery.js" />
+
+	 	<h:outputStylesheet library="primefaces" name="components.css" />
+		<h:outputStylesheet library="primefaces" name="layout/layout.css" />
+	
+	
+		<h:outputScript library="js" name="materialize.js" />
+		
+		<h:outputScript library="js" name="workflow.js" />
+		
+		<h:outputStylesheet library="css" name="font-awesome.min.css" />
+		<h:outputStylesheet library="css" name="bootstrap.css" />
+		<h:outputStylesheet library="css" name="materialize.css" />
+		<h:outputStylesheet library="css" name="estilo.css" />
+		
+
+	<style>
+.ui-panel {
+	
+}
+
+.ui-widget {
+	
+}
+
+.ui-widget-content {
+
+	border: 0 !important;
+	margin: 0 !important;
+	padding: 0 !important
+}
+
+.ui-corner-all row {
+	
+}
+/*		Página de \publico\registro		*/
+.publico-registro{
+  max-width: 800px;
+  
+  margin-top: 50px;
+  margin: 0 auto;
+  padding-left: 50px;
+  padding-right: 50px;
+  Font-family:'Titillium Web', sans-serif;
+}
+.publico-registro form{
+	padding: 30px;
+}
+
+</style>
+
+</h:head>
+
+
+<h:body class="">
+	<h:form role="form" class="" id="registro">
+
+		<h:panelGroup class="">
+
+			<div class="publico-registro" style="margin-top: 50px">
+			
+				<div class="row">
+					<div class="col-md-6 form-group "
+						style="width: 30%; padding-right: 0">
+						<h4>Registre-se</h4>
+					</div>
+				</div>
+				
+				<hr class="gradient_line" style="margin-top: 0px" />
+				<p:panel id="pwd" class="row" styleClass="row">
+
+					<div class="row">
+						<div class="input-field col s12 m9">
+							<p:inputText type="text" name="email" id="email" 
+								value="#{registroMB.usuario.email}" tabindex="1"
+								binding="#{components.usuario_email}" />
+							<p:outputLabel value="#{msg['usuario_email']}" for="email" />
+							
+						</div>
+						<div class="input-field col s12 m3">
+							<p:inputText type="text" name="login" id="login"
+								class="form-control input-lg" 
+								value="#{registroMB.usuario.login}" tabindex="2"
+								binding="#{components.usuario_login}" />
+							<p:outputLabel value="#{msg['usuario_login']}" for="login" />
+						</div>
+						<div class="input-field col s12 m12">
+							<p:inputText type="text" name="nome" id="nome"
+								class="form-control input-lg" 
+								value="#{registroMB.usuario.nome}" tabindex="3"
+								binding="#{components.usuario_nome}" />
+							<p:outputLabel value="#{msg['usuario_nome']}" for="nome"  />
+						</div>
+						<div class="input-field col s12 m6">
+							<p:password type="password" value="#{registroMB.password1}"
+								match="pwd2" name="password" id="password"
+								class="form-control input-lg" 
+								tabindex="4" feedback="true" inline="true" />
+								<p:outputLabel value="#{msg['usuario_senha']}" for="password" />
+						</div>
+						<div class="input-field col s12 m6">
+							<p:password type="password" name="pwd2" id="pwd2"
+								class="form-control input-lg" 
+								tabindex="5" value="#{registroMB.password2}" feedback="true"
+								inline="true" />
+								<p:outputLabel value="#{msg['usuario_senha']}" for="pwd2" />
+						</div>
+						<div class="input-field col s12 m2" >
+							<p:inputText type="text" name="ramal" id="ramal" binding="#{components.usuario_ramal}"
+								class="form-control input-lg" tabindex="6" value="#{registroMB.usuario.ramal}" />
+							<p:outputLabel value="#{msg['usuario_ramal']}" for="ramal" />
+						</div>
+						<div class="input-field col s12 m5" >
+							<p:inputText type="text" name="residencial01" id="residencial01"
+								class="form-control input-lg" binding="#{components.usuario_residencial01}"
+								value="#{registroMB.usuario.residencial01}" tabindex="7" />
+							<p:outputLabel value="#{msg['usuario_residencial01']}" for="residencial01" />
+						</div>
+						<div class="input-field col s12 m5" >
+							<p:inputText type="text" name="celular" id="celular"
+								class="form-control input-lg" binding="#{components.usuario_celular}"
+								value="#{registroMB.usuario.celular}" tabindex="8" />
+							<p:outputLabel value="#{msg['usuario_celular']}" for="celular" />
+						</div>
+
+					</div>
+				</p:panel>
+
+				<div class="row">
+					<div class="col-xs-12 col-md-6"></div>
+					<div class="col-xs-12 col-md-6">
+						<p:commandButton action="#{registroMB.salvar}" update=":registro"
+							value="Save" class="btn-block btn-lg" icon="fa fa-floppy-o" ajax="true" />
+					</div>
+				</div>
+				<hr class="gradient_line"
+					style="margin-bottom: 15px; margin-top: 15px" />
+
+				<div class="row">
+					<p:messages closable="true" showDetail="true" showSummary="false"  for="panelMessage" />
+				</div>
+
+			</div>
+		</h:panelGroup>
+		<p:growl id="growl" showDetail="true" sticky="false"  for="growlMessage" />
+		<f:event listener="#{registroMB.postvalidate}" type="postValidate"  />
+
+
+	</h:form>
+
+</h:body>
+
+
+
+</html>

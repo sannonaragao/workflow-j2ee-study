@@ -1,0 +1,59 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:cc="http://java.sun.com/jsf/composite"
+      >
+
+    <!-- INTERFACE -->
+    <!-- https://github.com/EdwinHasta/Repo-DesignerRHN/tree/master/DesignerRHN/DesignerRHN-war/web/resources/js -->
+    
+    <cc:interface>
+        <cc:attribute name="value" type="java.util.Date" shortDescription="The value of this component" required="false" />
+        <cc:attribute name="mask" type="java.lang.String" 
+                      required="false" default="99/99/9999"
+                      shortDescription="The mask of the input component. The default value is 99/99/9999" />
+        <cc:attribute name="pattern" type="java.lang.String"
+                      required="false" default="dd/MM/yyyy"
+                      shortDescription="The date pattern for the component. It should match the mask pattern. 
+                      The default value is dd/MM/yyyy" />
+        
+        <cc:attribute name="placeholder" default="  /  /  " shortDescription="The placeholder attribute specifies a short hint that describes the expected value of an input field."/>
+        
+        <cc:attribute name="decoration" default="none" shortDescription="Decoration default del componente"/>
+        <cc:attribute name="width" default="70" shortDescription="Ancho componente referenciado en pixeles"/>
+        <cc:attribute name="height" default="12" shortDescription="Alto componente referenciado en porcentaje"/>
+        <cc:attribute name="disabled" default="false" shortDescription="Activo/Inactivo componente fecha"/>
+        <cc:attribute name="readonly" default="false" shortDescription="ReadOnly del componente fecha"/>
+        <cc:attribute name="onclick" default="" shortDescription="Llamado a una funcion js al dar click en el componente."/>
+        <cc:attribute name="onselect" default="" shortDescription="Llamado a una funcion js al dar click en el componente."/>
+        <cc:attribute name="onchange" default="" shortDescription="Onchange event lnkcalendar"/>
+        
+        <cc:clientBehavior name="dateSelect" targets="calendar"  event="dateSelect" />
+        <cc:clientBehavior name="select" targets="calendar" event="select" />
+        <cc:clientBehavior name="change" targets="calendar" event="change" />
+        <cc:clientBehavior name="click" targets="calendar" event="click"/>
+        <cc:clientBehavior name="focus" targets="calendar" event="focus"/>
+        <cc:clientBehavior name="blur" targets="calendar" event="blur"/>
+    </cc:interface>
+
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+        <!-- This component has been simplified but it could include any attribute of the inputMask 
+         component that we wish our developer clients to be able to specify -->
+        <p:inputMask id="calendar" onclick="select(); #{cc.attrs.onclick}"  onselect="#{cc.attrs.onselect}" onblur="#{cc.attrs.onblur}" 
+                     onchange="#{cc.attrs.onchange}" readonly="#{cc.attrs.readonly}" 
+                     disabled="#{cc.attrs.disabled}" mask="#{cc.attrs.mask}" 
+                     value="#{cc.attrs.value}" style="height: #{cc.attrs.height}px; width: #{cc.attrs.width}px; text-decoration: #{cc.attrs.decoration};
+                     position: relative; padding-bottom: 7px !important;  top: 4px !important;" styleClass="masked_calendar" title="true" 
+                     
+                     >
+            <f:convertDateTime pattern="#{cc.attrs.pattern}" locale="pt-BR" />
+        </p:inputMask>
+        <h:outputScript target="head" library="js" name="wf-calendar.js"  />
+    </cc:implementation>
+    
+    
+</html>

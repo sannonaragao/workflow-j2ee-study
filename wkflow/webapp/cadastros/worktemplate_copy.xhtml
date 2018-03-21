@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:util="http://xmlns.jcp.org/jsf/composite/components/util"	>
+
+<ui:composition >
+<ui:decorate template="/templates/main.xhtml"  >
+<ui:define name="titulo" > - #{msg['worktemplate_menu']}</ui:define>
+
+<ui:define name="content">
+<div>
+
+<h:form id="edicao" class="col s12" >
+	<util:fab id="fab" bean="#{wktemplateMB}" update_disabled="readonly" delete_disabled="deletedisabled" execute="@form" render=":edicao :listagem" process="edicao @this"  update="listagem:lista :edicao:fieldset" />
+
+	<p:fieldset legend="Etapas do Workflow Modelo" toggleable="true" collapsed="false" >
+		<p:tree id="tree" value="#{wktemplateMB.root}" var="node" dynamic="true" orientation="horizontal"  
+  			 selectionMode="single" widgetVar="treeWidget" selection="#{wktemplateMB.singleSelectedTreeNode}"  >
+	        <p:treeNode >
+	            <h:outputText value="#{node}" converter="cnvWorkTemplate"/>
+	        </p:treeNode>
+	  		
+		    <p:ajax event="select" listener="#{wktemplateMB.onNodeSelect}" update=":edicao" oncomplete="oncomplete();PF('varAddEtapa').enable();"  
+		    	 async="false"  ></p:ajax>
+		    <p:ajax event="unselect" listener="#{wktemplateMB.onNodeUnSelect}" update=":edicao" oncomplete="PF('varAddEtapa').disable();"  ></p:ajax>
+		    
+		    
+	    </p:tree>
+    
+	<div class="card-action row">
+    	<p:commandButton  actionListener="#{wktemplateMB.doubleClickEvent()}" styleClass="hide waves-effect waves-light btn btn-xs col s3 offset-s1" 
+    		 widgetVar="varAddEtapa" title="Adicionar Etapa" disabled="true" />
+    	
+    	<div class="col s7 offset-s1 " >
+    	<p:outputLabel id="msgLabel" styleClass="hide" > Dê duplo clique na etapa para acrescentar um nível abaixo</p:outputLabel>
+    	</div>
+    	
+	</div>
+	  	
+   	</p:fieldset>
+    <div class="EmptyBox10"></div>
+    	<p:fieldset id="fieldset" toggleable="false" collapsed="false"  >
+	    <div class="row " id="campos" >
+			<div class="input-field col s12">
+				<p:inputText id="description" binding="#{components.worktemplate_description}" type="text" 
+				value="#{wktemplateMB.workTemplateDTO.description}" 
+				readonly="#{wktemplateMB.readonly}" 
+				disabled="#{wktemplateMB.readonly}">
+					<p:ajax event="keyup" update="tree" />
+				</p:inputText>
+				
+				  
+				<p:outputLabel value="#{msg['worktemplate_description']}" for="description" indicateRequired="false" />
+			</div>
+		</div>
+		</p:fieldset>
+	
+	<div class="row" id="erros">
+		<p:messages id="messages" closable="true" showDetail="true" showSummary="false" autoUpdate="false" for="panelMessage" />
+	</div>
+	<p:growl id="growl" showDetail="true" sticky="false" for="growlMessage"/>  
+
+</h:form>
+
+<h:form id="listagem">
+	<p:dataTable value="#{wktemplateMB.listTemplates}" var="work" id="lista" rows="5" paginator="true" 
+		paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="5,10,15"
+	    selectionMode="single" resizableColumns="true" style="margin-bottom:20px" selection="#{wktemplateMB.workTemplateDTO}" rowKey="#{work.id}" 
+	    emptyMessage="#{msg['worktemplate_no_rows']}" styleClass="z-depth-2" widgetVar="lista"  >
+		
+		<f:facet name="header">
+       		#{msg['worktemplate_list']}
+        </f:facet>
+		<p:column id="work" width="80%">
+			<f:facet name="header">#{msg['worktemplate_description']}</f:facet>
+			#{work.description}
+		</p:column>
+
+	    <p:ajax event="rowSelect"  
+		    update=":edicao" global="false" oncomplete="oncomplete();PF('varAddEtapa').disable();$('#edicao\\:msgLabel').removeClass('hide');" resetValues="true" />
+
+	</p:dataTable>
+
+	<p:remoteCommand name="btn_edit"   actionListener="#{wktemplateMB.edit}"  update=":edicao:fieldset :edicao:messages :edicao:growl :edicao:fab" global="false" oncomplete="oncomplete();" />
+	<p:remoteCommand name="btn_insert" actionListener="#{wktemplateMB.insert}" update=":edicao:fieldset :edicao:messages :edicao:growl :edicao:fab" global="false" oncomplete="oncomplete();"/> 
+	<p:remoteCommand name="btn_update" actionListener="#{wktemplateMB.update}" update=":edicao:fieldset :edicao:messages :edicao:growl :edicao:fab" global="false" oncomplete="oncomplete();"/>
+
+
+</h:form>
+
+<p:confirmDialog message="#{msg['standard.confirm_delete']}" header="Excluir #{wktemplateMB.workTemplateDTO.description}?" severity="alert" 
+	widgetVar="delDialog" appendTo="@(body)" global="true" closable="true" responsive="true" >
+	<h:form>
+		<p:commandButton value="Sim" actionListener="#{wktemplateMB.delete()}" update=":edicao, :listagem" oncomplete="PF('delDialog').hide();oncomplete();" />
+		<p:commandButton value="Não" onclick="PF('delDialog').hide();"  type="button" />
+	</h:form>
+</p:confirmDialog>
+
+<p:confirmDialog message="Salvar dados alterados na Etapa?" header="#{wktemplateMB.headerConfirmDialog()}?" severity="alert" 
+	widgetVar="saveDialog" appendTo="@(body)" global="true" closable="true" responsive="true" >
+	<h:form>
+		<p:commandButton value="Sim" actionListener="#{wktemplateMB.update()}" update=":edicao, :listagem" oncomplete="PF('saveDialog').hide();oncomplete();" />
+		<p:commandButton value="Não" actionListener="#{wktemplateMB.discardUpdate()}" update=":edicao, :listagem" oncomplete="PF('saveDialog').hide();oncomplete();" />
+		<p:commandButton value="Cancel" actionListener="#{wktemplateMB.cancelNodeChange()}" oncomplete="PF('saveDialog').hide();oncomplete();" />
+	</h:form>
+</p:confirmDialog>
+
+</div>
+</ui:define>
+</ui:decorate>
+</ui:composition>
+</html>

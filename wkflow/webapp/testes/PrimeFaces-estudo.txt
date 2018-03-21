@@ -1,0 +1,100 @@
+
+
+
+--- CHAMAR UM DIALOG A PARTIR DO BACKING BEAN --- 
+XHTML
+
+<p:commandButton style="display: none" 
+                 widgetVar="confirmButton"  
+                 actionListener="#{backing.yesFunction}" >
+   <p:confirm header="Confirmation" message="Are you sure?" /> 
+</p:commandButton>
+
+<p:commandButton value="Execute"
+                 actionListener="#{backing.validate}" /> 
+
+<p:confirmDialog id="cfmDlg" global="true" >
+      <p:commandButton value="Yes" />
+      <p:commandButton value="No" />
+</p:confirmDialog>
+
+
+BEAN
+
+public void validate() {
+   if(mode.equals("1")) {
+       System.out.println("OK");
+   } else {
+    RequestContext context = RequestContext.getCurrentInstance();
+    context.execute("PF('confirmButton').jq.click();");
+   }
+}
+Basically you add a hidden button (with p:confirm) in the usual way and you click it through jQuery
+-------  FIM --------
+
+
+<p:dialog responsive="true" >
+
+<h:panelGroup layout="block" styleClass="ui-fluid">
+
+ 
+
+<p:inputText id="email" binding="#{components.usuario_email}" type="text" 
+				value="#{usuarioMB.usuario.email}"  readonly="#{usuarioMB.readonly}" disabled="#{usuarioMB.readonly}"  />
+				<p:outputLabel value="#{msg['usuario_email']}" for="email" />
+				
+				
+input-field 
+
+
+
+			<div class="input-field col s12">	
+				<p:inputText id="name" binding="#{components.usuario_nome}" type="text" 
+				value="#{usuarioMB.usuario.nome}" 
+				readonly="#{usuarioMB.readonly}" 
+				disabled="#{usuarioMB.readonly}"  />
+				<p:outputLabel value="#{msg['usuario_nome']}" for="name"  />
+			</div>
+			<div class="input-field col s6">	
+				<p:inputText id="pwd1" type="password" 
+				value="#{usuarioMB.password1}" 
+				readonly="#{usuarioMB.readonly}" 
+				disabled="#{usuarioMB.readonly}"  />
+				<p:outputLabel value="#{msg['usuario_senha']}" for="pwd1" />
+			</div>
+			<div class="input-field col s6">	
+				<p:inputText id="pwd2" type="password" 
+				value="#{usuarioMB.password2}"
+				readonly="#{usuarioMB.readonly}"
+				disabled="#{usuarioMB.readonly}"  />
+				<p:outputLabel value="#{msg['usuario_senha_confirm']}" for="pwd2" />
+			</div>
+			
+			
+			
+		<div class="row">
+			<div class="input-field col s2">
+				<p:inputText type="text" id="ramal" binding="#{components.usuario_ramal}"
+					value="#{usuarioMB.usuario.ramal}" readonly="#{usuarioMB.readonly}"
+					disabled="#{usuarioMB.readonly}" />
+				<p:outputLabel value="#{msg['usuario_ramal']}" for="ramal" />
+			</div>
+			<div class="input-field col s5">
+				<p:inputText type="text"  id="residencial01"
+					binding="#{components.usuario_residencial01}"
+					value="#{usuarioMB.usuario.residencial01}"
+					readonly="#{usuarioMB.readonly}"
+					disabled="#{usuarioMB.readonly}"  />
+				<p:outputLabel value="#{msg['usuario_residencial01']}" for="residencial01" />
+			</div>
+			<div class="input-field col s5">
+				<p:inputText type="text" id="celular"
+					binding="#{components.usuario_celular}"
+					value="#{usuarioMB.usuario.celular}"
+					readonly="#{usuarioMB.readonly}"
+					disabled="#{usuarioMB.readonly}" />
+				<p:outputLabel value="#{msg['usuario_celular']}" for="celular" />
+			</div>
+
+		</div>
+		

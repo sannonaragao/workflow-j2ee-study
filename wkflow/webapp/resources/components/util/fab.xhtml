@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:p="http://primefaces.org/ui"
+      xmlns:cc="http://java.sun.com/jsf/composite"
+      xmlns:h="http://java.sun.com/jsf/html">
+
+    <!-- INTERFACE -->
+	<cc:interface>
+	 	
+		<cc:attribute name="bean" type="java.lang.Object" />
+
+		<cc:attribute name="update_disabled" type="java.lang.String" required="false" default="readonly" />
+		<cc:attribute name="edit_disabled" type="java.lang.String" />
+		<cc:attribute name="insert_disabled" type="java.lang.String" />
+		<cc:attribute name="delete_disabled" type="java.lang.String" required="false" default="deletedisabled"/>
+
+		<cc:attribute name="clientId" type="java.lang.String"  shortDescription="id do componente" />
+		<cc:attribute name="messages" type="java.lang.String"   required="false" default="@form:messages" shortDescription="ID do objeto p:messages"/>
+		
+		<cc:attribute name="process" type="java.lang.String" required="true"  shortDescription="lista de componentes contendo os valores a serem passados para o server. exemplo-> edicao @this" />
+		<cc:attribute name="update"  type="java.lang.String" required="true" shortDescription="exemplo -> listagem:listaProj" />
+		
+		<cc:attribute name="customCommands" type="java.lang.Boolean" required="false" default="false" shortDescription="Caso não seja para o sistema utilizar os comandos, mude para TRUE e associe os comandos externamente" />
+		
+		
+	</cc:interface>
+
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+	<div id="#{cc.clientId}" style="position: relative;" >
+		
+		<div class="fixed-action-btn horizontal click-to-toggle" style="top: 0px; right: -30px; width: 80px; height: 80px; position: absolute; float: right;">
+		
+			<!-- Botão principal sempre visível -->
+			<a class="btn-floating btn-medio light-blue">
+				<i class="fa fa-plus" aria-hidden="true" style="padding-top: 5px;" ></i>
+			</a>
+			
+			<ul style="right: 70px; top:27px; ">
+<!-- 				<li><a id="btn_delete" onclick="PF('cd').show()" class="btn-floating red"><i class="fa fa-trash-o" aria-hidden="true" style="v" ></i></a></li> -->
+			
+				<li style="margin-right: 5px;" ><p:commandButton id="btn_delete" styleClass="btn-floating red"
+						onclick="if((#{cc.attrs.customCommands} == true)  ? PF('delDialog').show() : PF('delDialogInner').show());" 
+						disabled="#{cc.attrs.bean[cc.attrs.delete_disabled]}"
+						style='border-radius: 50%;'
+						icon="fa fa-trash-o fab-innerbutton"
+						partialSubmit="true"
+						ajax="true"
+						
+ 					 	oncomplete="WfUpdateFields();" 
+						update="#{cc.clientId}"
+						process="#{cc.attrs.process}"
+						
+						title="Apagar">
+					</p:commandButton>
+				</li>
+				
+				<li style="margin-right: 5px;" ><p:commandButton id="btn_update" styleClass="btn-floating green"
+						onclick="if((#{cc.attrs.customCommands} == true)  ? btn_update() : btn_update_inner());"
+						disabled="#{cc.attrs.bean[cc.attrs.update_disabled]}"
+						style='border-radius: 50%;'
+						icon="fa fab-innerbutton-update fab-innerbutton"
+						partialSubmit="true" 
+						ajax="true"
+ 					 	update="#{cc.clientId}"
+ 					 	title="Salvar"/>
+				</li>
+			
+				<li style="margin-right: 5px;" ><p:commandButton id="btn_edit" styleClass="btn-floating green"
+						onclick="if((#{cc.attrs.customCommands} == true)  ? btn_edit() : btn_edit_inner());" 
+						disabled="#{cc.attrs.bean[cc.attrs.edit_disabled]}"
+						style='border-radius: 50%;'
+						icon="fa fa-pencil-square-o fab-innerbutton"
+						partialSubmit="true"
+						ajax="true" 
+						update="#{cc.clientId}"
+						title="Editar"/>
+				</li>
+				
+				<li style="margin-right: 5px;" ><p:commandButton id="btn_insert" styleClass="btn-floating green"
+					onclick="if((#{cc.attrs.customCommands} == true)  ? btn_insert() : btn_insert_inner());"
+						 disabled="#{cc.attrs.bean[cc.attrs.insert_disabled]}"
+						style='border-radius: 50%;'
+						icon="fa fa-plus-circle fab-innerbutton"
+						partialSubmit="true"  
+						ajax="true" 
+						update="#{cc.clientId}"
+						title="Novo"/>
+				</li>
+	
+			</ul>
+		</div>
+ 	</div>
+ 	
+ 	<p:remoteCommand name="btn_edit_inner"   action="#{cc.attrs.bean['edit']}"   
+					 update="#{cc.clientId} :edicao #{cc.attrs.messages}"
+					 process="#{cc.attrs.process}"
+					 oncomplete="WfUpdateFields();"/>
+						
+ 	<p:remoteCommand name="btn_insert_inner" action="#{cc.attrs.bean['insert']}"  
+ 					 update="#{cc.attrs.update} #{cc.clientId} #{cc.attrs.messages}" 
+ 					 oncomplete="oncomplete();" />
+ 					
+ 	<p:remoteCommand name="btn_update_inner" action="#{cc.attrs.bean['update']}"
+						update="#{cc.attrs.update} #{cc.clientId} #{cc.attrs.messages}" 
+ 					 	process="#{cc.attrs.process}"
+	 					oncomplete="WfUpdateFields();"
+ 					  />
+ 	
+ 	<p:remoteCommand name="btn_delete_inner" action="#{cc.attrs.bean['delete']}"  
+ 					 update="#{cc.attrs.update} #{cc.clientId} #{cc.attrs.messages}" 
+ 					 process="#{cc.attrs.process}"
+ 					 oncomplete="WfUpdateFields();" />
+
+
+	<p:confirmDialog message="#{msg['standard.confirm_delete']}" header="Excluir ?" severity="alert" 
+			widgetVar="delDialogInner" global="true" closable="true" responsive="true" >
+			<p:commandButton value="Sim" onclick="btn_delete_inner()" 
+				update="#{cc.attrs.update} #{cc.clientId} #{cc.attrs.messages}" 
+				oncomplete="PF('delDialogInner').hide();oncomplete();"
+				process="#{cc.attrs.process}" />
+			<p:commandButton value="Não" onclick="PF('delDialogInner').hide();"  type="button" />
+	</p:confirmDialog>
+		
+ 	</cc:implementation>
+    
+</html>
+
+<!-- testar 
+EDIT
+- clicar no botão "editar" sem registro selecionado deve exibir msg.
+- clicar no botão com registro selecionado, devem tornar disponíveis para alteração todos os campos de edição.
+	- deve ser clicável no campo mesmo quando o label estiver em cima.
+
+ADD
+
+
+
+obs
+retirado do botão de edit
+update="#{cc.attrs.update}"
+-->
+
+

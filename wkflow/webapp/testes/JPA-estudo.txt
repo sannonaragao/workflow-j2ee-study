@@ -1,0 +1,61 @@
+UML
+
+Association: is a relationship where all objects have their own lifecycle and there is no owner.
+
+Let’s take an example of Teacher and Student. Multiple students can associate with single 
+teacher and single student can associate with multiple teachers, but there is no ownership 
+between the objects and both have their own lifecycle. Both can be created and deleted independently.
+
+Aggregation: is a specialized form of Association where all objects have their own lifecycle, 
+but there is ownership and child objects can not belong to another parent object.
+
+Let’s take an example of Department and teacher. A single teacher can not belong to multiple 
+departments, but if we delete the department, the teacher object will not be destroyed. 
+We can think about it as a “has-a” relationship.
+
+
+Composition: is again specialized form of Aggregation and we can call this as a “death” relationship. 
+It is a strong type of Aggregation. Child object does not have its lifecycle and if parent object is 
+deleted, all child objects will also be deleted.
+
+Let’s take again an example of relationship between House and Rooms. House can contain multiple 
+rooms - there is no independent life of room and any room can not belong to two different houses.
+ If we delete the house - room will automatically be deleted.
+
+------------------------------------------
+Callbacks
+
+@PrePersist
+@PreUpdate
+public void configuraDatasBlaBlaBla(){
+	this.datademodificacao = new Date();
+	
+}
+
+@PostPersist
+@PostUpdate
+
+@PreRemove
+@PostRemove
+
+@PostLoad
+
+---------------------------------------
+
+Interessante.  Usando a anotação @Fetch(FetchMode.JOIN) sobre uma propriedade de classe que é FK de outra tabela,
+em conjunto com o comando FETCH da API critéria, faz um eager select evitando multiplas querys.
+ 
+@Fetch(FetchMode.JOIN)
+ 
+Join<Usuario, Role> role = (Join)c.fetch("roles");  //JOIN FETCH PARA EVITAR MULTIPLAS QUERYS
+  
+----------------------------------------
+
+Coleção de elementos em  uma tabela?
+@ElementCollection
+@CollectionTable(name="proprietario_telefones", joinColumns=@JoinColumn(name="cod_primary_key"))
+@Column(name="numero_telefone")
+
+
+
+

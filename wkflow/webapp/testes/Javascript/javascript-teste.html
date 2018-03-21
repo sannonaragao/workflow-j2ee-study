@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+
+<script>
+
+var helloWorld = function(){
+	return function(){
+		return "Chamando uma função dentro da outra!";
+
+	}
+};
+
+function outraSintaxe(a, b) {
+    return a + b;
+}
+
+var pessoa = {
+		nome:"João",
+		idade: 20,
+		getIdade: function(){
+			return this.idade;
+		}
+}
+var getIdadeOutra = function(){
+	return this.idade;
+}
+
+var Pessoa = function( nome, idade ){
+	this.nome = nome;
+	this.idade = idade;
+}
+
+window.onload = function (){
+	
+	document.getElementById('output1').innerHTML = helloWorld()();
+	document.getElementById('output2').innerHTML = document.getElementById('output1').innerHTML + outraSintaxe("Java","Script");
+	document.getElementById('output3').innerHTML = pessoa.getIdade();
+	document.getElementById('output4').innerHTML = getIdadeOutra.call(pessoa);
+	document.getElementById('output5').innerHTML = new Pessoa("Sannon",41);
+	
+};
+	
+</script>
+<body>
+
+
+	<p id="output1"></p>
+	<p id="output2"></p>
+	<p id="output3"></p>
+	<p id="output4"></p>
+	<p id="output5"></p>
+	
+
+</body>
+</html>

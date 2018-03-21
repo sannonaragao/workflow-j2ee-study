@@ -1,0 +1,47 @@
+<persistence xmlns="http://java.sun.com/xml/ns/persistence"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
+	version="2.0">
+
+	<persistence-unit name="workflow" transaction-type="RESOURCE_LOCAL">
+		<description>
+            ARQUIVO DE PERSISTÊNCIA JPA E HIBERNATE            
+        </description>
+		
+		<class>br.com.flow.model.entity.Persistent_logins</class>
+		<class>br.com.flow.model.entity.Project</class>
+		<class>br.com.flow.model.entity.Role</class>
+		<class>br.com.flow.model.entity.Usuario</class>
+		<class>br.com.flow.model.entity.UserGroup</class>
+		<class>br.com.flow.model.entity.WorkTemplate</class>
+		<class>br.com.flow.model.entity.WorkTrail</class>
+		
+		<properties>
+			<property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
+            <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/flow?useSSL=false" />
+            <property name="javax.persistence.jdbc.user" value="sannon" />
+            <property name="javax.persistence.jdbc.password" value="sannon1234" />
+            
+            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5Dialect" />
+ 
+            <property name="hibernate.hbm2ddl.auto" value="update" />
+			<property name="hibernate.show_sql" value="false" />
+			<property name="hibernate.format_sql" value="true" />
+			<property name="hibernate.use_sql_comments" value="true" />
+			
+			  <!-- C3P0 
+            
+            
+			<property name="hibernate.connection.provider_class" value="org.hibernate.connection.C3P0ConnectionProvider" />
+			
+			<property name="hibernate.c3p0.max_size" value="20" />
+			<property name="hibernate.c3p0.min_size" value="5" />
+			<property name="hibernate.c3p0.acquire_increment" value="1" />
+			<property name="hibernate.c3p0.idle_test_period" value="300" />
+			<property name="hibernate.c3p0.max_statements" value="50" />
+			<property name="hibernate.c3p0.timeout" value="300" />
+			-->
+		</properties>
+	</persistence-unit>
+
+</persistence>

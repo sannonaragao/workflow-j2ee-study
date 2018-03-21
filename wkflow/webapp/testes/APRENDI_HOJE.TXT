@@ -1,0 +1,110 @@
+
+
+
+
+Post-Redirect-Get pattern - Estudar
+
+31/10/2016 - 
+javax.faces.bean.SessionScoped (JSR 314)  -> JSF especific.  Web tier only.
+javax.enterprise.context.SessionScoped(JSR 346) -> CDI.
+
+23/10/2016 - Guardando e atribuindo propriedades
+faces-config.xml
+
+	<managed-bean>
+		<managed-bean-name>styleClassBean</managed-bean-name>
+		<managed-bean-class>java.util.HashMap</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+
+Recuperar por dentro de uma classe java
+ExternalContext externalContext = context.getExternalContext();
+Map<String, String> style = (Map<String, String>) externalContext.getRequestMap().get("styleClassBean");
+
+Utilizando dentro de um XHTML
+<p:inputText type="text" name="email" id="email" title="#{component.valid ?'':'afdas'}"
+					styleClass="#{styleClassBean.teste}"
+
+ 
+30/08/2016 - Aprendi mais um pouco sobre lazy~ errors.  Na hora de dar o "setProject", quando seleciona um objeto do 
+datatable, precisa realizar uma busca com o objeto para associar session com objeto.
+
+25, 26 e 27 - Sofrendo com layout ainda.  Fiz componente de calendar.  
+
+24/08/2016
+Aprendi a usar o p:remoteCommand, que executa chamadas de servidor a partir de eventos de componentes html.
+Fiz diversas alterações no layout, criando o FAB inclusive.
+
+23/08/2016
+context.getViewRoot().getViewId() - retorna url atual
+não consegui retornar parâmetro ?blabla=xpto
+Fiz a rotina para inserir/atualizar os usuários do Projeto.  Acho que ficou bom. 
+Tratei as mensagens de erro/warning.  Incluí propriedades css que estavam faltando do
+tema para o primefaces.
+
+resetValues="true", e o resetinput no primefaces, me poupou mais sofrimento.
+
+22/08/2016 - Hibernate
+Estados dos Objeto
+ Transient: só instanciado com new, porém não associado a sessão.  
+ Persistente: Representa no database eom identificador.
+ Detached: estava persistente mas a sessão foi fechada.
+ 
+Os metodos update() e merge() parecem similares pois ambos convertem detached
+objects em objetos persistentes. A maior diferenã é que update não pode ser usado
+quando o mesmo objeto já existe na sessão.
+
+Diferença entre load e get: se load() não encontra o objeto no banco, dá exception.  Já o get
+pode retornar um null se não existir no banco. 
+
+19/08/2016 - Hibernate.  Li sobre associação com collections, sobre não utilizar set~ e get~ 
+para as collections e usar listas seguras.  Tá com bookmark o artigo.
+session.save estava dando erro, tentava fazer insert ao invés de update. Usando saveOrUpdate funfou.
+
+Não fechando a sessão dava esse erro na segunda atualização->  "org.hibernate.HibernateException: illegally attempted to associate a proxy with two open Sessions"
+
+
+
+18/08/2016- Utilizar evendo no doubleclick da p:datatable <p:ajax event="rowDblselect"...
+Avancei um pouco mais no entendimento do Lazy Fail.
+
+17/08/2016
+Incluídos no CSS parâmetros para desenhar o checkbox.  Sem tema no primefaces, sem checkbox.
+HIBERNATE importante informação.  
+
+Fazer um getCurrentSession() e depois currentSession.beginTransaction() fazia fechar a seção do filtro
+de servlet quando encerrava a transação.  Mudei para openSession() e depois beginTransaction(), então abro e encerro a seção que 
+estou tratando.
+
+$(".ui-layout-center") jQuery para retornar um elemento de acordo com a classe.
+
+
+
+15/08/2016
+Praticamente sem tempo de estudar.  Completei a gravação dos dados do projeto convertendo 
+a data para datetime e <f:convertDateTime dateStyle="medium"/> e dando addall no set de usuários/projetos.
+ 
+
+
+12/08/2016 
+O primefaces, na hora de renderizar a view após o validation de um mb, estava modificando a 
+ordem dos meus CSS, incluindo o fa/font-awesome.css, primefaces.css e layout/layout.css no 
+começo da minha view.  Causava uma pequena diferença na margem, mas fiz a alteração para
+já deixar meus css na ordem que o primefaces colocava.
+
+Primefaces com eventos AJAX (oncomplete, etc) precisam de AJAX=TRUE.
+
+Olhei outros formatadores de entrada, mas dão conflito com o primefaces.
+E eu novamente perdendo tempo com algo que tem no primefaces... :-(   
+
+11/08/2016
+- HashCode e Equals chamam dados da collection e podem dar laze exception
+- alterei o materialize.js para funcionar com o calendar do primefaces, mas label ainda zoando
+quando seleciona
+- resolvi um bug chat que a lista de usuários do picklist esvaziava, o itemvalue da 
+picklist estava u.nome ao invés de u, e retornava string ao invés do objeto.
+ 
+-vi a ordem de execução da tag f:evento
+
+
+

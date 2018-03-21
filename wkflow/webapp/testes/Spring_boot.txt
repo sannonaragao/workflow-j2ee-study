@@ -1,0 +1,17 @@
+
+Spring Boot
+
+Baixar Spring Toll Suite -> spring.io -> rolar até Spring Tool Suite, que é o Eclipse alterado.
+
+Começando!
+
+File -> New > Spring Starter Project
+
+Criar Applicação Olá
+Atualizar Thymeleaf
+
+Spring MVC é Action Based.
+
+Acrecentar dependências: webjars-locator, bootstrap, jquery.
+
+

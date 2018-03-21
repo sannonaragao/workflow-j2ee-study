@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mappings xmlns="http://dozer.sourceforge.net" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://dozer.sourceforge.net http://dozer.sourceforge.net/schema/beanmapping.xsd">
+	<mapping>
+		<class-a>br.com.flow.model.entity.Usuario</class-a>
+		<class-b>br.com.flow.model.dto.UsuarioDTO</class-b>
+	</mapping>
+
+	<mapping>
+		<class-a>br.com.flow.model.entity.Role</class-a>
+		<class-b>br.com.flow.model.dto.RoleDTO</class-b>
+	</mapping>
+
+	<mapping>
+		<class-a>br.com.flow.model.entity.UserGroup</class-a>
+		<class-b>br.com.flow.model.dto.UserGroupDTO</class-b>
+	</mapping>
+	
+	<mapping>
+		<class-a>br.com.flow.model.entity.Project</class-a>
+		<class-b>br.com.flow.model.dto.ProjectDTO</class-b>
+	</mapping>
+	
+</mappings>

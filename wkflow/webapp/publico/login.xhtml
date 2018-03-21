@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets" 
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<!--Import materialize.css-->
+	<h:outputScript library="primefaces" name="jquery/jquery.js" />
+	<h:outputScript library="js" name="materialize.min.js" />
+	<h:outputScript library="js" name="bootstrap.min.js" />
+	<h:outputStylesheet library="css" name="materialize.min.css" />
+
+	<!--Let browser know website is optimized for mobile-->
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<h:outputStylesheet library="css" name="bootstrap.css" />
+	<h:outputStylesheet library="css" name="estilo.css" />
+	
+<style>
+.publico-login {
+	padding-top: 100px;
+	padding-bottom: 40px;
+	Font-family: 'Titillium Web', sans-serif;
+}
+
+.publico-login h2 {
+	margin-top: 0px;
+	Font-family: 'Titillium Web', sans-serif;
+}
+
+.publico-login form {
+	max-width: 330px;
+	padding: 40px;
+	margin: 0 auto;
+	Font-family: 'Titillium Web', sans-serif;
+}
+
+.fc {
+	display: block;
+	width: 100%;
+	height: 34px;
+	padding: 6px 12px;
+	font-size: 14px;
+	line-height: 1.42857143;
+	color: #555;
+	background-color: #fff;
+	background-image: none;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	-webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+	box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+	-webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow
+		ease-in-out .15s;
+	-o-transition: border-color ease-in-out .15s, box-shadow ease-in-out
+		.15s;
+	transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+	Font-family: 'regular' !important;
+	/*    Font-family:'Titillium Web', sans-serif;*/
+}
+
+.publico-login .fc {
+	position: relative;
+	height: auto;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	padding: 10px;
+	font-size: 16px;
+	margin-bottom: -1px;
+	Font-family: 'Titillium Web', sans-serif;
+}
+
+.publico-login .fc:focus {
+	z-index: 2;
+}
+</style>
+	
+</h:head>
+
+
+<h:body class="publico-login cb0">
+
+	<div class="container" >
+	
+	<form id="login" method="post" action="#{request.contextPath}/j_spring_security_check" class="cbd0 bda1"   >
+	<div>
+		<h:panelGroup rendered="#{!empty param.login_error}" >
+			<span style="font-color:red"> Erro ao efetuar o login.</span>
+			<br />
+			Motivo: #{SPRING_SECURITY_LAST_EXCEPTION.message}
+			<br />
+		</h:panelGroup>
+		
+		<h2 class="form-signin-heading ft">Acesse</h2>
+        <label for="inputEmail" class="sr-only ft">Email address</label>
+        
+        <input type="text"  name='j_username'  id="inputEmail"  class="fc bdr0 ft"  placeholder="Login ou Email" />
+        
+        <label for="inputPassword" class="sr-only ft">Password</label>
+        <input type="password" name='j_password' id="inputPassword" class="fc bdr0 ft" placeholder="Senha"  />
+        
+        <div class="checkbox">
+            
+            <input type="checkbox" class="filled-in" id="filled-in-box" checked="checked" value="true" name="_spring_security_remember_me" />
+		      <label for="filled-in-box">Lembrar</label>
+		      
+          
+        </div>
+        
+        <button class="waves-effect waves-light btn"  type="submit">Entrar</button>
+		
+		<input type="hidden" name="#{_csrf.parameterName}" value="#{_csrf.token}" />
+		
+        <h:link value="Registre-se" outcome="/publico/registro.xhtml" styleClass="ft" />
+        
+		<script type="text/javascript">
+				document.getElementById("login").j_username.value = "#{SPRING_SECURITY_LAST_USERNAME}";
+			
+				(function () {
+				  	$.material.init();
+				  	$(".shor").noUiSlider({ start: 40, connect: "lower", range: { min: 0, max: 100 } });
+					$(".svert").noUiSlider({ orientation: "vertical", start: 40, connect: "lower", range: { min: 0, max: 100  }  });
+				});
+		</script>
+		</div>
+		
+	</form>
+
+    </div>
+
+</h:body>
+
+
+</html>

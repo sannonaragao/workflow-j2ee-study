@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:util="http://xmlns.jcp.org/jsf/composite/components/util"	>
+
+
+<ui:composition >
+<ui:decorate template="/templates/main.xhtml"  >
+<ui:define name="titulo" >Cadastro de Projetos</ui:define>
+
+<ui:define name="content">
+
+<div  >
+
+	<h:form id="edicao" class="col s12"   >
+		<util:fab id="fab" bean="#{projectMB}" update_disabled="readonly" 
+			delete_disabled="deletedisabled" execute="@form" render=":edicao :listagem" process="edicao @this"  
+			update="listagem:listaProj :edicao:fieldset :edicao:fieldset2"  />
+	
+    	<p:fieldset id="fieldset2" legend="Projetos" toggleable="false" styleClass="mini" collapsed="false"  >
+
+
+			<div class="row" id="campos" >
+				<div class="input-field col s7">	
+					<p:inputText id="name" binding="#{components.project_name}" type="text" 
+					value="#{projectMB.project.name}" 
+					readonly="#{projectMB.readonly}" 
+					onfocus="removeCaledarLabel();" 
+					disabled="#{projectMB.readonly}"
+					
+					  />
+					<p:outputLabel value="#{msg['project_name']}" for="name" indicateRequired="false" />
+				</div>
+				
+				<div class="input-field col s3">
+			        <p:calendar id="dt_start" value="#{projectMB.project.dt_start}" locale="pt_BR" navigator="true" pattern="dd/MM/yyyy" mask="true" styleClass="hasDatepicker"
+			        onfocus="activeLabel(this);activeLabelColor(this);" onblur="desactiveLabelColor(this);" readonly="#{projectMB.readonly}" disabled="#{projectMB.readonly}"
+			         binding="#{components.project_dt_start}"  /> 
+				     	 
+					<p:outputLabel id="dt_start_label" value="#{msg['project_dt_start']}" for="dt_start" title="${projectMB.readonly}" style="color: rgb(158, 158, 158;" />
+				</div>
+				
+				 <div class="cbx-freeform input-field col s1"  >
+					<label for="enabled" class="checkbox-inline no_indent" >Ativo</label>
+				 	<p:selectBooleanCheckbox id="enabled" value="#{projectMB.project.enabled}" disabled="#{projectMB.readonly}" onfocus="removeCaledarLabel();" />
+				 </div>
+				 	
+			</div>
+		</p:fieldset>
+				
+    	<p:fieldset id="fieldset" legend="Recursos do Projeto" toggleable="true" toggleSpeed="500" collapsed="#{projectMB.collapsedList}" >
+			
+			<p:pickList id="usersProject" value="#{projectMB.usersProject}"
+				var="u" itemLabel="#{u.nome}" converter="cnvUsuario"
+					itemValue="#{u}" disabled="#{projectMB.readonly}" styleClass="mini" >
+				<f:facet name="sourceCaption">Disponíveis</f:facet>
+				<f:facet name="targetCaption">Participantes</f:facet>
+			</p:pickList>
+			
+			<p:ajax event="toggle" listener="#{projectMB.onToggle}" update="fieldset"/>
+		</p:fieldset>
+		
+		<div class="row" id="erros">
+			<p:messages id="messages" closable="true" showDetail="true" showSummary="false" autoUpdate="false" for="panelMessage" />
+		</div>
+		<p:growl id="growl" showDetail="true" sticky="false" for="growlMessage"/>  
+	
+	</h:form>
+	
+	<h:form id="listagem"> 
+		<p:dataTable value="#{projectMB.lista_de_projetos}" var="proj" rendered="#{not empty projectMB.lista_de_projetos}" id="listaProj" rows="5" paginator="true" 
+			paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="5,10,15"
+		    selectionMode="single" resizableColumns="true" selection="#{projectMB.project}" rowKey="#{proj.id}"
+		    styleClass="z-depth-2" >
+			
+			<f:facet name="header">
+        		Lista de Projetos
+	        </f:facet>
+			<p:column id="projname" width="60%">
+				<f:facet name="header">Projeto</f:facet>
+				#{proj.name}
+			</p:column>
+			<p:column id="projdt"  width="25%" style="text-align:center">
+				<f:facet name="header">Data</f:facet>
+				<h:outputText value="#{proj.dt_start}">
+					<f:convertDateTime dateStyle="medium" /> 
+				</h:outputText>
+			</p:column>
+			
+			<p:column id="projenabled" width="14%"  style="text-align:center">
+				<f:facet name="header">Ativo</f:facet>
+				<p:selectBooleanCheckbox   value="#{proj.enabled}" disabled="true"  />
+			</p:column>
+
+		    <p:ajax event="rowSelect"  
+			    update=":edicao" global="false" oncomplete="oncomplete();" resetValues="true" />
+
+		</p:dataTable>
+	
+ 		<p:remoteCommand name="btn_edit"   actionListener="#{projectMB.edit}"   update=":edicao:fieldset :edicao:fieldset2 :edicao:messages :edicao:growl :edicao:fab" global="false" oncomplete="oncomplete();"/>
+ 		<p:remoteCommand name="btn_insert" actionListener="#{projectMB.insert}" update=":edicao:fieldset :edicao:fieldset2 :edicao:messages :edicao:growl :edicao:fab" global="false" oncomplete="oncomplete();"/> 
+		<p:remoteCommand name="btn_update" actionListener="#{projectMB.update}" update=":edicao:fieldset :edicao:fieldset2 :edicao:messages :edicao:growl :edicao:fab" global="false" oncomplete="oncomplete();"/>
+	</h:form>
+	
+	<p:confirmDialog message="Confirma a exclusão do registro?"	header="Excluir #{projectMB.project.name}?"	severity="alert" 
+			widgetVar="delDialog" appendTo="@(body)" global="true" closable="true" responsive="true">
+		<h:form>
+			<p:commandButton value="Sim" actionListener="#{projectMB.delete()}" update=":edicao, :listagem" oncomplete="PF('delDialog').hide();oncomplete();" />
+			<p:commandButton value="Não" onclick="PF('delDialog').hide();"  type="button" />
+		</h:form>
+	</p:confirmDialog>
+
+</div>
+</ui:define>
+</ui:decorate>
+</ui:composition>
+</html>

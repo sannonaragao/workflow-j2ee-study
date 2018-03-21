@@ -1,0 +1,42 @@
+JAVASCRIPT
+
+VARIÁVEIS:  
+Tipagem fraca.   Case sensitive.
+Variáveis devem começar com letra, $ ou _.  Convenção usam minúsculas com camelCase.
+
+exemplos de declarações de variáveis:
+
+var name="Agile Code";
+var $scope={title:"Javascript", version:"6"};   -> Objeto
+var _person = "José";
+var numberCode = 32154;
+var a=10, b=9, c=8;
+var language;	-> undefined por enquanto
+
+TIPOS DE DADOS
+NUMBER
+Math API -> http://www.w3schools.com/jsref/jsref_obj_math.asp
+
+Math.abs(-7.25);
+Math.pow(4, 3);
+
+STRING
+São imutáveis.  Podem ser declaradas com aspas simples ou duplas. 
+String API -> http://www.w3schools.com/jsref/jsref_obj_string.asp
+
+ex:
+var nome = "AgileCode";
+nome.charAt(2); -> i
+nome.charCodeAt(0); -> 65
+nome.replace('Code','!'); -> Agile!
+
+var str = "How are you doing today?";
+var res = str.split(" "); -> How,are,you,doing,today?
+
+INVOCANDO FUNÇÕES	
+
+var soma = function(a,b){
+	return a + b;
+}
+
+

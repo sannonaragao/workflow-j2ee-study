@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<Context reloadable="true">
+	<Resources
+        cachingAllowed="true"
+        cacheMaxSize="20000"
+    />
+    
+	<Resource 
+			name="jdbc/FlowDB" 
+			auth="Container" 
+			type="javax.sql.DataSource"
+			minIdle="5"
+			maxTotal="8"  
+			maxIdle="10" 
+			maxWaitMillis="10000"
+			username="sannon" 
+			password="sannon1234" 
+			driverClassName="com.mysql.jdbc.Driver"
+			url="jdbc:mysql://localhost:3306/flow?autoReconnect=true" 
+			JtaManaged="true" />
+			
+	<Resource
+			name="mail/Session"
+			auth="Container"
+			type="javax.mail.Session"
+			mail.smtp.host="localhost"
+			mail.smtp.port="25"
+			mail.smtp.auth="true"
+			mail.smtp.user="livrojava@localhost"
+			mail.smtp.password="123" />
+<!-- 
+	<Resource 
+			name="BeanManager" 
+			auth="Container"
+			type="javax.enterprise.inject.spi.BeanManager" 
+			factory="org.jboss.weld.resources.ManagerObjectFactory" />
+			-->
+</Context>
+	

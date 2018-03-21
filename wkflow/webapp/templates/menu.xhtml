@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+
+<h:body>
+	<ui:composition>
+	
+	
+	<h:form>
+		<div id="layout-menu-cover"  class="z-depth-1">
+		
+			<p:menu toggleable="true"  styleClass="wf-p_menu" >
+				<p:menuitem styleClass="wf-p_menuitem" value="Registrar Horas" actionListener="#{menuView.save}"  update="" icon="fa fa-calendar"    />
+			
+				<p:submenu  styleClass="wf-p_submenu" label="Cadastros" expanded="false" >
+					<p:menuitem  styleClass="wf-p_menuitem"  value="Projetos" url="/cadastros/projeto.jsf" update="" icon="fa fa-briefcase"   />
+					<p:menuitem  styleClass="wf-p_menuitem" value="#{msg['worktemplate_menu']}" url="/cadastros/worktemplate.jsf" update="" icon="fa fa-link"   />
+					<p:menuitem  styleClass="wf-p_menuitem" value="Atividades" actionListener="#{contextoBean.atividades}" update="" icon="fa fa-keyboard-o" />
+					<p:menuitem  styleClass="wf-p_menuitem" value="Tarefas" actionListener="#{menuView.update}" update="" icon="fa fa-tasks" />
+				</p:submenu>
+				
+				<p:submenu  styleClass="wf-p_submenu" label="Admin" expanded="false" >
+					<p:menuitem  styleClass="wf-p_menuitem" value="Grupos" url="/admin/grupos.jsf" update=""  icon="fa fa-users"/>
+					<p:menuitem  styleClass="wf-p_menuitem" value="Usuários" url="/admin/usuarios.jsf" update="" icon="fa fa-user"/>
+				</p:submenu>
+				<p:submenu  styleClass="wf-p_submenu" label="Navigations" expanded="false"  icon="fa fa-angle-double-down">
+					<p:menuitem  styleClass="wf-p_menuitem" value="External" url="http://www.primefaces.org"
+						icon="ui-icon-person" />
+					<p:menuitem  styleClass="wf-p_menuitem" value="Internal"   url="#{request.contextPath}/logout"
+						icon="ui-icon-star" />
+				</p:submenu>
+				<p:menuitem  styleClass="wf-p_menuitem" value="Logout" url="/logout" icon="ui-icon-star" />
+			</p:menu>
+			
+			<a href="#{request.contextPath}/logout">Sair</a>
+			
+			
+		</div>
+		
+		</h:form>
+	</ui:composition>
+</h:body>
+</html>

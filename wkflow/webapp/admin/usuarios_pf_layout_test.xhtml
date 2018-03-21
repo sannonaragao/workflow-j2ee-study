@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:util="http://xmlns.jcp.org/jsf/composite/components/util"	>
+
+<ui:composition >
+<ui:decorate template="/templates/main.xhtml"  >
+<ui:define name="titulo" >Cadastro de Projetos</ui:define>
+
+<ui:define name="content">
+
+
+
+<h:form id="edicao" class="col s12"   >
+
+   	<p:fieldset legend="#{msg['usuarios']}" toggleable="false" collapsed="false"  >
+   		<util:fab bean="#{usuarioMB}" update_action="update" update_disabled="readonly" 
+			delete_disabled="deletedisabled" execute="@form" render=":edicao :listagem"
+			process="edicao @this"  update="listagem:listaUser :edicao" />
+		
+		<div class="ui-fluid">
+			
+		<p:panelGrid columns="4" layout="grid" columnClasses="ui-grid-col-2, ui-grid-col-4, ui-grid-col-2, ui-grid-col-4" >
+		
+			<p:outputLabel value="#{msg['usuario_email']}" for="email" />
+			<p:inputText id="email" binding="#{components.usuario_email}" type="text" 
+				value="#{usuarioMB.usuario.email}" 
+				readonly="#{usuarioMB.readonly}" 
+				disabled="#{usuarioMB.readonly}"  />
+				
+			<p:outputLabel value="#{msg['usuario_login']}" for="login" />
+			<p:inputText id="login" binding="#{components.usuario_login}" type="text" 
+				value="#{usuarioMB.usuario.login}" 
+				readonly="#{usuarioMB.readonly}" 
+				disabled="#{usuarioMB.readonly}"	 />
+
+			
+		</p:panelGrid>
+		
+		</div>
+
+		<div class="row" id="campos" >
+		
+			<div class="input-field col s4">	
+			</div>
+		</div>
+		<div class="row" >
+			<div class="input-field col s12">	
+				<p:inputText id="name" binding="#{components.usuario_nome}" type="text" 
+				value="#{usuarioMB.usuario.nome}" 
+				readonly="#{usuarioMB.readonly}" 
+				disabled="#{usuarioMB.readonly}"  />
+				<p:outputLabel value="#{msg['usuario_nome']}" for="name"  />
+			</div>
+		</div>
+		<div class="row" >
+			<div class="input-field col s6">	
+				<p:inputText id="pwd1" type="password" 
+				value="#{usuarioMB.password1}" 
+				readonly="#{usuarioMB.readonly}" 
+				disabled="#{usuarioMB.readonly}"  />
+				<p:outputLabel value="#{msg['usuario_senha']}" for="pwd1" />
+			</div>
+			<div class="input-field col s6">	
+				<p:inputText id="pwd2" type="password" 
+				value="#{usuarioMB.password2}"
+				readonly="#{usuarioMB.readonly}"
+				disabled="#{usuarioMB.readonly}"  />
+				<p:outputLabel value="#{msg['usuario_senha_confirm']}" for="pwd2" />
+			</div>
+		</div>
+		
+		
+		<div class="row">
+			<div class="input-field col s2">
+				<p:inputText type="text" id="ramal" binding="#{components.usuario_ramal}"
+					value="#{usuarioMB.usuario.ramal}" readonly="#{usuarioMB.readonly}"
+					disabled="#{usuarioMB.readonly}" />
+				<p:outputLabel value="#{msg['usuario_ramal']}" for="ramal" />
+			</div>
+			<div class="input-field col s5">
+				<p:inputText type="text"  id="residencial01"
+					binding="#{components.usuario_residencial01}"
+					value="#{usuarioMB.usuario.residencial01}"
+					readonly="#{usuarioMB.readonly}"
+					disabled="#{usuarioMB.readonly}"  />
+				<p:outputLabel value="#{msg['usuario_residencial01']}" for="residencial01" />
+			</div>
+			<div class="input-field col s5">
+				<p:inputText type="text" id="celular"
+					binding="#{components.usuario_celular}"
+					value="#{usuarioMB.usuario.celular}"
+					readonly="#{usuarioMB.readonly}"
+					disabled="#{usuarioMB.readonly}" />
+				<p:outputLabel value="#{msg['usuario_celular']}" for="celular" />
+			</div>
+
+		</div>
+		
+		
+		
+	</p:fieldset>
+			
+	<div class="row" id="erros">
+		<p:messages id="messages" closable="true" showDetail="true" showSummary="false" autoUpdate="true" for="panelMessage" />
+	</div>
+	<p:growl id="growl" showDetail="true" sticky="false" for="growlMessage"/>  
+
+</h:form>
+	
+	<h:form id="listagem"> 
+		<p:dataTable value="#{usuarioMB.list}" var="user" id="listaUser" rows="5" paginator="true" 
+			paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="5,10,15"
+		    selectionMode="single" resizableColumns="true" selection="#{usuarioMB.usuario}" rowKey="#{user.id}"
+		    scrollable="true"   
+		    emptyMessage="#{msg['standard_no_records']}"    >
+			
+			<f:facet name="header">
+        		#{msg['usuarios']}
+	        </f:facet>
+			<p:column id="ativo" width="35">
+				<f:facet name="header"></f:facet>
+				<p:selectBooleanCheckbox   value="#{user.ativo}" disabled="true"  />
+			</p:column>
+ 
+			<p:column id="login" width="100" >
+				<f:facet name="header">#{msg['usuario_login']}</f:facet>
+				#{user.login}
+			</p:column>
+			
+			<p:column id="Email" width="200" >
+				<f:facet name="header">#{msg['usuario_email']}</f:facet>
+				#{user.email}
+			</p:column>
+ 
+			<p:column id="Nome" width="300" >
+				<f:facet name="header">#{msg['usuario_nome']}</f:facet>
+				#{user.nome}
+			</p:column>
+ 
+			<p:column id="Ramal" width="100" >
+				<f:facet name="header">#{msg['usuario_ramal']}</f:facet>
+				#{user.ramal}
+			</p:column>
+ 
+ 		    <p:ajax event="rowSelect"  
+			    update=":edicao" global="false" oncomplete="oncomplete();" resetValues="true" />
+
+		</p:dataTable>
+		
+ 		<p:remoteCommand name="btn_edit"   actionListener="#{usuarioMB.edit}"   update=":edicao" global="false" oncomplete="oncomplete();"/>
+ 		<p:remoteCommand name="btn_insert" actionListener="#{usuarioMB.insert}" update=":edicao" global="false" oncomplete="oncomplete();"/> 
+		
+	
+	</h:form>
+	
+	<p:confirmDialog message="#{msg['standard.confirm_delete']}"	header="Excluir #{usuarioMB.usuario.nome}?"	severity="alert" 
+			widgetVar="delDialog"	appendTo="@(body)"	global="true"	closable="true" >
+		<h:form>
+			<p:commandButton value="Sim" actionListener="#{usuarioMB.delete()}" update=":edicao, :listagem" oncomplete="PF('delDialog').hide();oncomplete();" />
+			<p:commandButton value="Não" onclick="PF('delDialog').hide();"  type="button" />
+		</h:form>
+	</p:confirmDialog>
+	
+
+</ui:define>
+</ui:decorate>
+</ui:composition>
+</html>

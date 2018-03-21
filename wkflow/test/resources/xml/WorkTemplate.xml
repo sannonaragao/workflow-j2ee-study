@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+	<WorkTemplate worktemplate_id="2" description="Template 1o. nível"     worktemplate_id_super="null"  />
+	<WorkTemplate worktemplate_id="3" description="Template 2o. nível-A"   worktemplate_id_super="2" />
+	<WorkTemplate worktemplate_id="4" description="Template 2o. nível-B"   worktemplate_id_super="2" />
+	<WorkTemplate worktemplate_id="5" description="Template 3o. nível-A-A" worktemplate_id_super="3" />
+	<WorkTemplate worktemplate_id="6" description="Template 3o. nível-A-B" worktemplate_id_super="3" />
+	
+</dataset>

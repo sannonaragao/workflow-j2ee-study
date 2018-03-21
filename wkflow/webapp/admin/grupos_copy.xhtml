@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:util="http://xmlns.jcp.org/jsf/composite/components/util"	>
+
+<ui:composition >
+<ui:decorate template="/templates/main.xhtml"  >
+<ui:define name="titulo" >Cadastro de Projetos</ui:define>
+
+<ui:define name="content">
+
+<div>
+
+
+
+<h:form id="edicao" class="col s12" >
+		<util:fab  id="fab" bean="#{gruposMB}" update_action="update" update_disabled="readonly"
+			delete_disabled="deletedisabled" process=":edicao"  
+			update=":edicao:fieldset :edicao:fieldset2 :listagem"  />
+	
+
+   	<p:fieldset id="fieldset" legend="Grupos" toggleable="false" collapsed="false"  >
+
+		<div class="row" id="campos" >
+		
+			<div class="input-field col s12">	
+				<p:inputText id="name" binding="#{components.usergroup_name}" type="text" 
+				value="#{gruposMB.usergroup.name}" 
+				readonly="#{gruposMB.readonly}" 
+				disabled="#{gruposMB.readonly}"
+				  />
+				<p:outputLabel value="#{msg['usergroup_name']}" for="name" indicateRequired="false" />
+			</div>
+			
+		
+			<div class="input-field col s12">	
+				<p:inputText id="email" binding="#{components.usergroup_email}" type="text" 
+				value="#{gruposMB.usergroup.email}" 
+				readonly="#{gruposMB.readonly}" 
+				disabled="#{gruposMB.readonly}"
+				  />
+				<p:outputLabel value="#{msg['usergroup_email']}" for="email" indicateRequired="false" />
+			</div>
+			 	
+		</div>
+	</p:fieldset>
+	
+	<p:fieldset id="fieldset2" legend="Usuários Associados" toggleable="true" toggleSpeed="500" collapsed="#{gruposMB.collapsedList}">
+		<p:selectManyCheckbox id="manycheckbox"	value="#{gruposMB.selectedUsers}" layout="responsive" columns="3" 
+			converter="cnvUsuario" disabled="#{gruposMB.readonly}">
+			<f:selectItems value="#{gruposMB.listAllUsers}" var="user" itemLabel="#{user.login}" itemValue="#{user}"  />
+		</p:selectManyCheckbox>
+		<p:ajax event="toggle" listener="#{gruposMB.onToggle}" update="fieldset2"/>
+	</p:fieldset>
+	
+	<div class="row" id="erros">
+		<p:messages id="messages" closable="true" showDetail="true" showSummary="false" autoUpdate="false" for="panelMessage" />
+	</div>
+	<p:growl id="growl" showDetail="true" sticky="false" for="growlMessage"/>  
+
+</h:form>
+
+<h:form id="listagem"> 
+	<p:dataTable value="#{gruposMB.list}" var="grupo" id="listaGrupo" rows="5" paginator="true" 
+		paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="5,10,15"
+	    selectionMode="single" resizableColumns="true" style="margin-bottom:20px" selection="#{gruposMB.usergroup}" rowKey="#{grupo.id}" 
+	    emptyMessage="#{msg['usergroup_no_rows']}" styleClass="z-depth-2"
+	    >
+		
+		<f:facet name="header">
+       		#{msg['usergroup_list']}
+        </f:facet>
+		<p:column id="projname" width="80%">
+			<f:facet name="header">#{msg['usergroup_name']}</f:facet>
+			#{grupo.name}
+		</p:column>
+
+	    <p:ajax event="rowSelect"  
+		    update=":edicao" global="false" oncomplete="oncomplete();" resetValues="true" />
+
+	</p:dataTable>
+	
+</h:form>
+
+<p:confirmDialog message="#{msg['standard.confirm_delete']}" header="Excluir #{gruposMB.usergroup.name}?" severity="alert" 
+		widgetVar="delDialog" appendTo="@(body)" global="true" closable="true" responsive="true" >
+	<h:form>
+		<p:commandButton value="Sim" actionListener="#{gruposMB.delete()}" update=":edicao, :listagem" oncomplete="PF('delDialog').hide();oncomplete();" />
+		<p:commandButton value="Não" onclick="PF('delDialog').hide();"  type="button" />
+	</h:form>
+</p:confirmDialog>
+
+</div>
+</ui:define>
+</ui:decorate>
+</ui:composition>
+</html>
